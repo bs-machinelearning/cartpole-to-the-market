@@ -15,7 +15,6 @@ results/                  run_log.csv and saved results
 img/                      Figures used by the README and the report
 resources/                Proposal and background reading
 Report.typ                Main Typst report
-Meeting Notes.typ         Meeting notes
 pyproject.toml            Python project metadata and dependencies
 ```
 
