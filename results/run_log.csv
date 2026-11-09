@@ -1,0 +1,1 @@
+run_id,date,owner,git_commit,config,environment,algorithm,seed,fold,status,test_sharpe_per_period,other_metrics,returns_path

@@ -1,0 +1,21 @@
+[project]
+name = "cartpole-to-the-market"
+version = "0.1.0"
+description = "How much edge survives? Honest backtests for reinforcement-learning trading agents"
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = [
+    "gymnasium",
+    "stable-baselines3",
+    "sb3-contrib",
+    "ipykernel",
+    "jupyter",
+    "matplotlib",
+    "numpy",
+    "pandas",
+    "scipy",
+    "seaborn",
+    "yfinance",
+    "pyyaml",
+    "pytest",
+]

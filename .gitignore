@@ -1,0 +1,10 @@
+.DS_Store
+/data/
+/logs/
+/runs/
+/.jupyter/
+.ipynb_checkpoints/
+.virtual_documents/
+.venv
+*.pyc
+__pycache__/
