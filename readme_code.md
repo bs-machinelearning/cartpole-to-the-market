@@ -31,7 +31,7 @@ Open notebooks with the environment created by `uv`. In VS Code, select the corr
 
 ## Rules
 
-- One notebook per person in each stage folder, named `Firstname_Lastname.ipynb`.
+- One notebook per person in each stage folder, named `Firstname.ipynb` (for example `Christina.ipynb`).
 - Code others depend on moves to `Reference/` and gets a test.
 - Every scored run gets a row in `results/run_log.csv`, abandoned runs included.
 

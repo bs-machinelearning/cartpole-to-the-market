@@ -31,10 +31,10 @@
       [
         #link("https://github.com/christod01")[*Christina E. Christodoulou*]
       ],
-      [*Team member*],
-      [*Team member*],
-      [*Team member*],
-      [*Team member*],
+      [*Alex*],
+      [*Francesco*],
+      [*Matte*],
+      [*Stefan*],
     )
 
     #line(length: 100%)

@@ -9,12 +9,12 @@
 <table>
   <tr>
     <td align="center"><a href="https://github.com/christod01"><strong>Christina E. Christodoulou</strong></a></td>
-    <td align="center"><strong>Team member</strong></td>
-    <td align="center"><strong>Team member</strong></td>
+    <td align="center"><strong>Alex</strong></td>
+    <td align="center"><strong>Francesco</strong></td>
   </tr>
   <tr>
-    <td align="center"><strong>Team member</strong></td>
-    <td align="center"><strong>Team member</strong></td>
+    <td align="center"><strong>Matte</strong></td>
+    <td align="center"><strong>Stefan</strong></td>
     <td align="center"></td>
   </tr>
 </table>
