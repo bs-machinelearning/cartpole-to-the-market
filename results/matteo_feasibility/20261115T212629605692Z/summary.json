@@ -1,0 +1,19 @@
+{
+  "ticker": "SPY",
+  "source": "Yahoo Finance via yfinance",
+  "yfinance_version": "1.8.0",
+  "saved_at_utc": "2026-11-15T21:26:29.605692+00:00",
+  "requested_start": "2010-01-01",
+  "requested_end_exclusive": "2026-11-15",
+  "first_date": "2010-01-04",
+  "last_date": "2026-11-13",
+  "rows": 4243,
+  "download_seconds": 0.06071019999217242,
+  "initial_checks_seconds": 0.003739300009328872,
+  "duplicate_dates": 0,
+  "missing_price_values": 0,
+  "reference_calendar": "NYSE",
+  "missing_sessions": 0,
+  "extra_dates": 0,
+  "adjustment_note": "Provider Adj Close retained; adjustments not independently verified."
+}
