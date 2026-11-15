@@ -1,1 +1,3 @@
 run_id,date,owner,git_commit,config,environment,algorithm,seed,fold,status,test_sharpe_per_period,other_metrics,returns_path
+20261115T173401634980Z_PPO_s42,2026-11-15,Stefan,unknown,1. Control/config.json,CartPole-v1,PPO,42,none,control,,"{""training_seconds"": 8.2, ""mean_return"": 500.0, ""std_return"": 0.0, ""eval_episodes"": 20, ""note"": ""week 1 feasibility run, made from a copy outside the repo""}",
+20261115T173445437186Z_DQN_s42,2026-11-15,Stefan,unknown,1. Control/config_dqn.json,CartPole-v1,DQN,42,none,control,,"{""training_seconds"": 6.33, ""mean_return"": 134.4, ""std_return"": 19.06, ""eval_episodes"": 20, ""note"": ""week 1 feasibility run, made from a copy outside the repo""}",

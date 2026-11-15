@@ -12,12 +12,24 @@ from stable_baselines3.common.evaluation import evaluate_policy
 from stable_baselines3.common.monitor import Monitor
 
 ALGORITHMS = {"PPO": PPO, "DQN": DQN}
-FIELDS = ["run ID", "date", "owner", "git commit", "config", "environment", "algorithm", "seed", "fold or window", "status", "test Sharpe (per period)", "other metrics", "path to saved returns"]
+# Column names and rules: see results/README.md. Every run goes in the shared log.
+FIELDS = ["run_id", "date", "owner", "git_commit", "config", "environment", "algorithm", "seed", "fold", "status", "test_sharpe_per_period", "other_metrics", "returns_path"]
+REPO_ROOT = Path(__file__).resolve().parents[1]
+CONTROL_ENVS = {"CartPole-v1", "Acrobot-v1"}
+
+
+def repo_relative(path):
+    """Path relative to the repo root, so the log reads the same on every laptop."""
+    try:
+        return str(Path(path).resolve().relative_to(REPO_ROOT))
+    except ValueError:
+        return str(path)
 
 
 def git_commit():
     try:
-        return subprocess.check_output(["git", "rev-parse", "HEAD"], stderr=subprocess.DEVNULL, text=True).strip()
+        return subprocess.check_output(["git", "rev-parse", "--short", "HEAD"], cwd=REPO_ROOT,
+                                       stderr=subprocess.DEVNULL, text=True).strip()
     except (OSError, subprocess.CalledProcessError):
         return "unknown"
 
@@ -43,7 +55,7 @@ def main():
     seed = int(config["seed"])
     budget = int(config["budget"])
     eval_episodes = int(config.get("eval_episodes", 20))
-    owner = config.get("owner", "RL")
+    owner = config["owner"]  # first name, e.g. "Stefan"
     if algorithm not in ALGORITHMS:
         raise ValueError(f"Algorithm must be one of: {', '.join(ALGORITHMS)}")
     if budget <= 0 or eval_episodes <= 0:
@@ -51,18 +63,19 @@ def main():
 
     # Resolve paths relative to the config, so commands work from any directory.
     base = config_path.parent
-    log_path = base / config.get("run_log", "run_log.csv")
+    log_path = REPO_ROOT / config.get("run_log", "results/run_log.csv")  # relative to repo root
     model_dir = base / config.get("model_dir", "models")
     model_dir.mkdir(parents=True, exist_ok=True)
     run_id = datetime.now(timezone.utc).strftime("%Y%m%dT%H%M%S%fZ") + f"_{algorithm}_s{seed}"
     model_path = model_dir / run_id
 
-    row = {"run ID": run_id, "date": datetime.now(timezone.utc).isoformat(),
-           "owner": owner, "git commit": git_commit(), "config": str(config_path),
+    is_control = environment in CONTROL_ENVS
+    # Status stays "abandoned" if the run is stopped by hand (Ctrl+C) before it finishes.
+    row = {"run_id": run_id, "date": datetime.now(timezone.utc).date().isoformat(),
+           "owner": owner, "git_commit": git_commit(), "config": repo_relative(config_path),
            "environment": environment, "algorithm": algorithm, "seed": seed,
-           "fold or window": "N/A (CartPole)", "status": "started",
-           "test Sharpe (per period)": "N/A (CartPole)", "other metrics": "",
-           "path to saved returns": "N/A (CartPole)"}
+           "fold": "none" if is_control else "", "status": "abandoned",
+           "test_sharpe_per_period": "", "other_metrics": "", "returns_path": ""}
 
     env = None
     eval_env = None
@@ -80,21 +93,21 @@ def main():
         eval_env.reset(seed=seed + 1000)
         mean, std = evaluate_policy(model, eval_env, n_eval_episodes=eval_episodes,
                                     deterministic=True, warn=False)
-        row["status"] = "completed"
-        row["other metrics"] = json.dumps({
+        row["status"] = "control" if is_control else "completed"
+        row["other_metrics"] = json.dumps({
             "training_seconds": round(training_seconds, 2),
             "mean_return": round(float(mean), 2),
             "std_return": round(float(std), 2),
             "eval_episodes": eval_episodes,
-            "model_path": str(model_path) + ".zip",
+            "model_path": repo_relative(str(model_path) + ".zip"),
         })
         print(f"{algorithm} on {environment} | seed={seed} | steps={budget}")
         print(f"Training seconds: {training_seconds:.2f}")
         print(f"Final mean return over {eval_episodes} episodes: {mean:.2f} +/- {std:.2f}")
         print(f"Saved model: {model_path}.zip")
     except Exception as exc:
-        row["status"] = "failed"
-        row["other metrics"] = json.dumps({"error": str(exc), "elapsed_seconds": round(time.perf_counter() - start, 2)})
+        row["status"] = "crashed"
+        row["other_metrics"] = json.dumps({"error": str(exc), "elapsed_seconds": round(time.perf_counter() - start, 2)})
         raise
     finally:
         if env is not None:

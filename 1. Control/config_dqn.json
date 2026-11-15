@@ -4,7 +4,7 @@
   "seed": 42,
   "budget": 50000,
   "eval_episodes": 20,
-  "owner": "RL",
-  "run_log": "run_log.csv",
+  "owner": "Stefan",
+  "run_log": "results/run_log.csv",
   "model_dir": "models"
 }
