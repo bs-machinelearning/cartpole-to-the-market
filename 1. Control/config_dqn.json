@@ -1,0 +1,10 @@
+{
+  "environment": "CartPole-v1",
+  "algorithm": "DQN",
+  "seed": 42,
+  "budget": 50000,
+  "eval_episodes": 20,
+  "owner": "RL",
+  "run_log": "run_log.csv",
+  "model_dir": "models"
+}
