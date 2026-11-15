@@ -2,20 +2,13 @@
 
 ## Install
 
-From this folder, run:
-
-```bash
-python3 -m venv .venv
-source .venv/bin/activate
-python -m pip install -r requirements.txt
-python -c "import gymnasium, stable_baselines3; print('Both imports work')"
-```
+Nothing extra: the project's packages come from `uv sync` at the repo root (see `readme_code.md`).
 
 ## Train and log
 
 ```bash
-python train.py --config config.json
-python train.py --config config_dqn.json
+uv run python train.py --config config.json
+uv run python train.py --config config_dqn.json
 ```
 
 Each run adds one row to the shared log, `results/run_log.csv` (one row **per attempt**, including crashed and stopped runs), and saves a model checkpoint under `models/` (not uploaded to GitHub). The output gives training time in seconds and mean/std episode reward on the evaluation episodes. Configurable fields: `environment`, `algorithm`, `seed`, `budget` (training timesteps), `eval_episodes`, `owner` (your first name), `run_log` (path from the repo root), and `model_dir`.
