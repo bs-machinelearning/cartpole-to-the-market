@@ -69,7 +69,8 @@ def append_log(path, row):
 
 def score(model, returns, config, run):
     """Total log return of the trained agent on a series, acting deterministically."""
-    env = TradingEnv(returns, k=config["k"], cost_bps=config["cost_bps"], peek=run["peek"], obs_scale=run["obs_scale"])
+    env = TradingEnv(returns, k=config["k"], cost_bps=config["cost_bps"], days="all", peek=run["peek"],
+                     obs_scale=run["obs_scale"])
     history = run_policy(env, lambda obs: model.predict(obs, deterministic=True)[0])
     return {
         "total_log_return": round(sum(row["net_return"] for row in history), 4),
@@ -88,7 +89,7 @@ def scripted(returns, config):
         "oracle": (traded > 0).astype(int),  # long exactly on the days that go up
     }
     return {
-        name: round(sum(row["net_return"] for row in run_policy(TradingEnv(returns, k=k, cost_bps=cost_bps), actions.tolist())), 4)
+        name: round(sum(row["net_return"] for row in run_policy(TradingEnv(returns, k=k, cost_bps=cost_bps, days="all"), actions.tolist())), 4)
         for name, actions in policies.items()
     }
 
@@ -128,7 +129,8 @@ def main():
                "algorithm": algorithm, "seed": seed, "fold": "none", "status": "abandoned",
                "test_sharpe_per_period": "", "other_metrics": "", "returns_path": ""}
         try:
-            env = TradingEnv(train, k=k, cost_bps=config["cost_bps"], peek=run["peek"], obs_scale=run["obs_scale"])
+            env = TradingEnv(train, k=k, cost_bps=config["cost_bps"], days="all", peek=run["peek"],
+                             obs_scale=run["obs_scale"])
             if run["reward_scale"] != 1:  # the agent trains on rescaled rewards; the accounting below never does
                 env = gym.wrappers.TransformReward(env, lambda r, s=run["reward_scale"]: r * s)
             env = Monitor(env)

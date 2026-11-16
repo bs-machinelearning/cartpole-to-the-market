@@ -20,7 +20,12 @@ earns exactly the asset's own log return.
 
 Assumptions (state them in the report): the trade is filled at the same close
 the decision is based on; the cost is a constant fraction of the value traded;
-cash earns nothing; no leverage and no short selling.
+cash earns nothing; no leverage and no short selling; the position still held
+after the last day is not sold, so no exit cost is charged at the end.
+
+Days that are not listed are stepped over: a position held across a gap pays
+nothing for crossing it and neither earns nor loses the returns of the skipped
+days. On scattered days the wealth path is therefore not a calendar equity curve.
 """
 
 from __future__ import annotations
@@ -37,16 +42,19 @@ FLAT, LONG = 0, 1
 class TradingEnv(gym.Env):
     """Trade one asset, long or flat, one step per day.
 
-    Parameters
+    Parameters (all fixed when the environment is built; make a new one to change them)
     ----------
     log_returns : daily log returns of one asset in date order; entry j is the
-        return of day j (close j-1 to close j).
+        return of day j (close j-1 to close j). Copied, so later edits to the
+        caller's array do not reach the environment.
     k : observation window, the number of past daily returns the agent sees.
     cost_bps : cost of changing position, in basis points of the value traded
         (fee plus half the bid-ask spread). No default on purpose: a forgotten
         cost would silently become the zero-cost shortcut.
-    days : indices of the days whose return can be earned (the train or the
-        test window). They need not be contiguous. Default: every day from k on.
+    days : positions in ``log_returns`` of the days whose return can be earned,
+        that is the train or the test window; or the string "all" for every day
+        from k on. No default on purpose: a forgotten window would silently mix
+        train and test. The days need not be contiguous.
     peek : if True, the observation also contains log_returns[j], the return the
         position is about to earn. This is the deliberate one-bar look-ahead
         (shortcut P). It must stay False in honest runs.
@@ -58,26 +66,34 @@ class TradingEnv(gym.Env):
     Observation: ``[r(j-k), ..., r(j-1), position]``, plus ``r(j)`` when peek is on.
     Action: 0 = flat, 1 = long. It is the position to hold, so repeating it is free.
     Episode: starts flat on the first day of ``days`` and ends (truncated) after
-    the last one. The last position is not sold: no cost is charged at the end.
+    the last one. The observation returned with that last step is the window
+    ending on the last day; its peek slot, if any, is 0.
+
+    Records: ``history`` holds one dict per day traded in the current episode and
+    is replaced by ``reset()``. Stable-Baselines3 resets automatically when an
+    episode ends, so to score a policy use ``run_policy`` on a bare environment.
     """
 
     metadata = {"render_modes": []}
 
-    def __init__(self, log_returns, *, k, cost_bps, days=None, peek=False, obs_scale=100.0, dates=None):
+    def __init__(self, log_returns, *, k, cost_bps, days, peek=False, obs_scale=100.0, dates=None):
         super().__init__()
-        returns = np.asarray(log_returns, dtype=np.float64)
+        returns = np.array(log_returns, dtype=np.float64)  # a private copy
         if returns.ndim != 1:
             raise ValueError("log_returns must be a one-dimensional sequence")
         if not np.all(np.isfinite(returns)):
             raise ValueError("log_returns contains NaN or infinite values")
         if int(k) != k or k < 1:
             raise ValueError("k must be a whole number of days, at least 1")
-        if not cost_bps >= 0:
-            raise ValueError("cost_bps cannot be negative")
+        if not (math.isfinite(cost_bps) and cost_bps >= 0):
+            raise ValueError("cost_bps must be a finite number, zero or more")
+        if not (math.isfinite(obs_scale) and obs_scale != 0):
+            raise ValueError("obs_scale must be a finite number other than zero")
         n, k = len(returns), int(k)
-        days = np.arange(k, n) if days is None else np.asarray(days)
+        days = np.arange(k, n) if isinstance(days, str) and days == "all" else np.asarray(days)
         if days.ndim != 1 or len(days) == 0 or not np.issubdtype(days.dtype, np.integer):
-            raise ValueError("days must be a non-empty list of whole-number indices")
+            raise ValueError('days must be "all" or a non-empty list of whole-number positions')
+        days = days.astype(np.int64)  # before comparing: unsigned differences wrap around
         if np.any(np.diff(days) <= 0):
             raise ValueError("days must be strictly increasing")
         if days[0] < k or days[-1] > n - 1:
@@ -85,13 +101,14 @@ class TradingEnv(gym.Env):
         if dates is not None and len(dates) != n:
             raise ValueError("dates must have one entry per log return")
 
+        returns.flags.writeable = False
         self._returns = returns
-        self.days = days.astype(np.int64)
+        self.days = days
         self.k = k
         self.cost = float(cost_bps) / 10_000
         self.peek = bool(peek)
         self.obs_scale = float(obs_scale)
-        self.dates = dates
+        self.dates = None if dates is None else list(dates)  # by position, whatever index a Series carries
 
         self.action_space = spaces.Discrete(2)
         size = k + 1 + int(self.peek)
@@ -101,7 +118,7 @@ class TradingEnv(gym.Env):
         self._step = 0  # how many days of the window have been traded
         self._position = FLAT
         self._log_wealth = 0.0
-        self.history: list[dict] = []  # one record per day traded in the current episode
+        self.history: list[dict] = []
 
     def reset(self, *, seed=None, options=None):
         super().reset(seed=seed)  # no randomness here: same data and actions give the same rewards
@@ -151,7 +168,7 @@ class TradingEnv(gym.Env):
             end, next_return = day, self._returns[day]
         else:  # after the last day: the window ending on it, and nothing left to peek at
             end, next_return = int(self.days[-1]) + 1, 0.0
-        obs = np.empty(self.observation_space.shape, dtype=np.float32)
+        obs = np.zeros(self.observation_space.shape, dtype=np.float32)
         obs[: self.k] = self._returns[end - self.k : end] * self.obs_scale
         obs[self.k] = self._position
         if self.peek:
@@ -163,14 +180,18 @@ def run_policy(env, policy):
     """Play one episode and return the per-day records (``env.history``).
 
     ``policy`` is either a function ``observation -> action`` or a ready-made
-    sequence of actions, one per day. Baselines and scripted checks should go
-    through here, so they pay the same costs under the same rules as an agent.
+    list of actions, exactly one per day of the window. Baselines and scripted
+    checks should go through here, so they pay the same costs under the same
+    rules as an agent.
     """
-    actions = None if callable(policy) else iter(policy)
+    scripted = not callable(policy)
+    if scripted:
+        actions = list(policy)
+        if len(actions) != len(env.unwrapped.days):
+            raise ValueError(f"{len(actions)} actions given for a window of {len(env.unwrapped.days)} days")
     obs, _ = env.reset()
-    done = False
+    step, done = 0, False
     while not done:
-        action = policy(obs) if actions is None else next(actions)
-        obs, _, terminated, truncated, _ = env.step(action)
-        done = terminated or truncated
+        obs, _, terminated, truncated, _ = env.step(actions[step] if scripted else policy(obs))
+        step, done = step + 1, terminated or truncated
     return env.unwrapped.history
