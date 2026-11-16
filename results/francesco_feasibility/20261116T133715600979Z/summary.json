@@ -1,0 +1,280 @@
+{
+  "what": "TradingEnv feasibility on synthetic i.i.d. returns (no market data)",
+  "saved_at_utc": "2026-11-16T13:37:15.600979+00:00",
+  "git_commit": "d74e4d0",
+  "config": {
+    "owner": "Francesco",
+    "seed": 0,
+    "k": 20,
+    "cost_bps": 2.0,
+    "daily_volatility": 0.01,
+    "train_days": 2000,
+    "test_days": 1000,
+    "budget": 100000,
+    "runs": [
+      {
+        "algorithm": "PPO",
+        "peek": true,
+        "obs_scale": 100,
+        "reward_scale": 100
+      },
+      {
+        "algorithm": "PPO",
+        "peek": true,
+        "obs_scale": 1,
+        "reward_scale": 100
+      },
+      {
+        "algorithm": "PPO",
+        "peek": true,
+        "obs_scale": 100,
+        "reward_scale": 1
+      },
+      {
+        "algorithm": "PPO",
+        "peek": false,
+        "obs_scale": 100,
+        "reward_scale": 100
+      },
+      {
+        "algorithm": "DQN",
+        "peek": true,
+        "obs_scale": 100,
+        "reward_scale": 100
+      },
+      {
+        "algorithm": "DQN",
+        "peek": true,
+        "obs_scale": 1,
+        "reward_scale": 100
+      },
+      {
+        "algorithm": "DQN",
+        "peek": true,
+        "obs_scale": 100,
+        "reward_scale": 1
+      },
+      {
+        "algorithm": "DQN",
+        "peek": false,
+        "obs_scale": 100,
+        "reward_scale": 100
+      }
+    ],
+    "run_log": "results/run_log.csv",
+    "output_dir": "results/francesco_feasibility"
+  },
+  "budget": 100000,
+  "versions": {
+    "gymnasium": "1.4.0",
+    "stable_baselines3": "2.9.2",
+    "numpy": "2.5.4"
+  },
+  "noise_band_test": 0.632,
+  "yardsticks": {
+    "train": {
+      "flat": 0.0,
+      "always_long": -0.5817,
+      "oracle": 7.5299
+    },
+    "test": {
+      "flat": 0.0,
+      "always_long": -0.6372,
+      "oracle": 3.5413
+    }
+  },
+  "runs": [
+    {
+      "run_id": "20261116T133715639511Z_PPO_s0_peek1_obs100_rew100",
+      "algorithm": "PPO",
+      "peek": true,
+      "obs_scale": 100,
+      "reward_scale": 100,
+      "k": 20,
+      "cost_bps": 2.0,
+      "budget": 100000,
+      "training_seconds": 34.74,
+      "steps_per_second": 2878,
+      "train": {
+        "total_log_return": 7.3926,
+        "switches": 960,
+        "share_of_days_long": 0.499
+      },
+      "test": {
+        "total_log_return": 3.4786,
+        "switches": 488,
+        "share_of_days_long": 0.488
+      },
+      "test_oracle": 3.5413,
+      "test_share_of_oracle": 0.982
+    },
+    {
+      "run_id": "20261116T133751380047Z_PPO_s0_peek1_obs1_rew100",
+      "algorithm": "PPO",
+      "peek": true,
+      "obs_scale": 1,
+      "reward_scale": 100,
+      "k": 20,
+      "cost_bps": 2.0,
+      "budget": 100000,
+      "training_seconds": 34.54,
+      "steps_per_second": 2895,
+      "train": {
+        "total_log_return": 7.4052,
+        "switches": 912,
+        "share_of_days_long": 0.534
+      },
+      "test": {
+        "total_log_return": 3.4821,
+        "switches": 468,
+        "share_of_days_long": 0.525
+      },
+      "test_oracle": 3.5413,
+      "test_share_of_oracle": 0.983
+    },
+    {
+      "run_id": "20261116T133826187594Z_PPO_s0_peek1_obs100_rew1",
+      "algorithm": "PPO",
+      "peek": true,
+      "obs_scale": 100,
+      "reward_scale": 1,
+      "k": 20,
+      "cost_bps": 2.0,
+      "budget": 100000,
+      "training_seconds": 34.49,
+      "steps_per_second": 2899,
+      "train": {
+        "total_log_return": 7.3763,
+        "switches": 1006,
+        "share_of_days_long": 0.503
+      },
+      "test": {
+        "total_log_return": 3.4739,
+        "switches": 502,
+        "share_of_days_long": 0.488
+      },
+      "test_oracle": 3.5413,
+      "test_share_of_oracle": 0.981
+    },
+    {
+      "run_id": "20261116T133900934699Z_PPO_s0_peek0_obs100_rew100",
+      "algorithm": "PPO",
+      "peek": false,
+      "obs_scale": 100,
+      "reward_scale": 100,
+      "k": 20,
+      "cost_bps": 2.0,
+      "budget": 100000,
+      "training_seconds": 34.57,
+      "steps_per_second": 2892,
+      "train": {
+        "total_log_return": 2.8651,
+        "switches": 885,
+        "share_of_days_long": 0.515
+      },
+      "test": {
+        "total_log_return": -0.4515,
+        "switches": 450,
+        "share_of_days_long": 0.521
+      },
+      "test_oracle": 3.5413,
+      "test_share_of_oracle": -0.127
+    },
+    {
+      "run_id": "20261116T133935765763Z_DQN_s0_peek1_obs100_rew100",
+      "algorithm": "DQN",
+      "peek": true,
+      "obs_scale": 100,
+      "reward_scale": 100,
+      "k": 20,
+      "cost_bps": 2.0,
+      "budget": 100000,
+      "training_seconds": 23.78,
+      "steps_per_second": 4205,
+      "train": {
+        "total_log_return": 7.1136,
+        "switches": 992,
+        "share_of_days_long": 0.507
+      },
+      "test": {
+        "total_log_return": 3.2849,
+        "switches": 520,
+        "share_of_days_long": 0.494
+      },
+      "test_oracle": 3.5413,
+      "test_share_of_oracle": 0.928
+    },
+    {
+      "run_id": "20261116T133959720799Z_DQN_s0_peek1_obs1_rew100",
+      "algorithm": "DQN",
+      "peek": true,
+      "obs_scale": 1,
+      "reward_scale": 100,
+      "k": 20,
+      "cost_bps": 2.0,
+      "budget": 100000,
+      "training_seconds": 24.17,
+      "steps_per_second": 4137,
+      "train": {
+        "total_log_return": 7.5051,
+        "switches": 972,
+        "share_of_days_long": 0.494
+      },
+      "test": {
+        "total_log_return": 3.5305,
+        "switches": 496,
+        "share_of_days_long": 0.486
+      },
+      "test_oracle": 3.5413,
+      "test_share_of_oracle": 0.997
+    },
+    {
+      "run_id": "20261116T134024067308Z_DQN_s0_peek1_obs100_rew1",
+      "algorithm": "DQN",
+      "peek": true,
+      "obs_scale": 100,
+      "reward_scale": 1,
+      "k": 20,
+      "cost_bps": 2.0,
+      "budget": 100000,
+      "training_seconds": 23.46,
+      "steps_per_second": 4263,
+      "train": {
+        "total_log_return": 5.9704,
+        "switches": 955,
+        "share_of_days_long": 0.589
+      },
+      "test": {
+        "total_log_return": 2.5455,
+        "switches": 488,
+        "share_of_days_long": 0.581
+      },
+      "test_oracle": 3.5413,
+      "test_share_of_oracle": 0.719
+    },
+    {
+      "run_id": "20261116T134047699205Z_DQN_s0_peek0_obs100_rew100",
+      "algorithm": "DQN",
+      "peek": false,
+      "obs_scale": 100,
+      "reward_scale": 100,
+      "k": 20,
+      "cost_bps": 2.0,
+      "budget": 100000,
+      "training_seconds": 23.41,
+      "steps_per_second": 4273,
+      "train": {
+        "total_log_return": 4.6124,
+        "switches": 950,
+        "share_of_days_long": 0.408
+      },
+      "test": {
+        "total_log_return": -0.3618,
+        "switches": 486,
+        "share_of_days_long": 0.426
+      },
+      "test_oracle": 3.5413,
+      "test_share_of_oracle": -0.102
+    }
+  ]
+}
