@@ -1,0 +1,22 @@
+{
+  "owner": "Francesco",
+  "seed": 0,
+  "k": 20,
+  "cost_bps": 2.0,
+  "daily_volatility": 0.01,
+  "train_days": 2000,
+  "test_days": 1000,
+  "budget": 100000,
+  "runs": [
+    {"algorithm": "PPO", "peek": true, "obs_scale": 100, "reward_scale": 100},
+    {"algorithm": "PPO", "peek": true, "obs_scale": 1, "reward_scale": 100},
+    {"algorithm": "PPO", "peek": true, "obs_scale": 100, "reward_scale": 1},
+    {"algorithm": "PPO", "peek": false, "obs_scale": 100, "reward_scale": 100},
+    {"algorithm": "DQN", "peek": true, "obs_scale": 100, "reward_scale": 100},
+    {"algorithm": "DQN", "peek": true, "obs_scale": 1, "reward_scale": 100},
+    {"algorithm": "DQN", "peek": true, "obs_scale": 100, "reward_scale": 1},
+    {"algorithm": "DQN", "peek": false, "obs_scale": 100, "reward_scale": 100}
+  ],
+  "run_log": "results/run_log.csv",
+  "output_dir": "results/francesco_feasibility"
+}
