@@ -1,0 +1,38 @@
+{
+  "status": "Draft for team discussion; not frozen",
+  "candidate_etfs": [
+    "SPY",
+    "QQQ",
+    "IWM",
+    "EFA",
+    "TLT"
+  ],
+  "data_start": "2010-01-01",
+  "data_end_exclusive": "2026-01-01",
+  "frequency": "daily",
+  "source": "Yahoo Finance via yfinance",
+  "price_field": "Adj Close",
+  "bid_ask_available": false,
+  "midprice_available": false,
+  "evaluation_proposal": {
+    "method": "rolling walk-forward",
+    "train_sessions": 756,
+    "test_months": 6,
+    "step_months": 6,
+    "embargo_sessions": 20,
+    "first_test_start": "2013-07-01",
+    "last_test_end": "2025-12-31",
+    "number_of_folds": 25
+  },
+  "pending_decisions": [
+    "Team approval of ETFs and sample period",
+    "Walk-forward versus the chronological 80/20 suggestion",
+    "Observation window and embargo agreement with Francesco",
+    "Training budget feasibility with Stefan",
+    "Data format and execution timing agreement with Francesco"
+  ],
+  "pending_checks": [
+    "Independent Stooq comparison",
+    "Corporate action adjustment validation"
+  ]
+}

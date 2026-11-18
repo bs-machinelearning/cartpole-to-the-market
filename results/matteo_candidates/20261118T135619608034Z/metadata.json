@@ -1,0 +1,21 @@
+{
+  "status": "Candidate dataset; team approval pending",
+  "source": "Yahoo Finance via yfinance",
+  "yfinance_version": "1.8.0",
+  "saved_at_utc": "2026-11-18T13:56:19.608034+00:00",
+  "tickers": [
+    "SPY",
+    "QQQ",
+    "IWM",
+    "EFA",
+    "TLT"
+  ],
+  "start_date": "2010-01-01",
+  "end_date_exclusive": "2026-01-01",
+  "frequency": "Daily",
+  "reference_calendar": "NYSE",
+  "price_field": "Provider Adj Close",
+  "bid_ask_or_midprice_included": false,
+  "independent_source_cross_check": "Pending",
+  "corporate_action_validation": "Pending"
+}

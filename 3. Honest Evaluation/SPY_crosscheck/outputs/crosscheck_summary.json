@@ -1,0 +1,31 @@
+{
+  "scope": "SPY only; supplied 2010-2025 snapshots",
+  "status": "REVIEW: date coverage and return discrepancies unresolved",
+  "yahoo_rows": 4024,
+  "stooq_rows": 4023,
+  "common_dates": 4023,
+  "matched_return_intervals": 4022,
+  "dates_only_in_yahoo": [
+    "2011-02-17"
+  ],
+  "dates_only_in_stooq": [],
+  "stooq_vs_yahoo_adjusted_return_correlation": 0.9992700412848222,
+  "stooq_vs_yahoo_unadjusted_return_correlation": 0.9979048455106552,
+  "median_absolute_return_difference_bp": 0.2835799768102776,
+  "p95_absolute_return_difference_bp": 2.4503546894460984,
+  "maximum_absolute_return_difference_bp": 200.9646743009541,
+  "maximum_discrepancy_interval_end": "2015-03-13",
+  "interpretation": [
+    "Stooq Close is empirically much closer to Yahoo Adj Close than Yahoo Close.",
+    "This does not independently establish either provider's adjustment policy.",
+    "Correlation alone is not a quality acceptance criterion.",
+    "Do not forward-fill, overwrite, or delete discrepancies automatically.",
+    "Matched intervals adjacent to a missing session may span multiple sessions.",
+    "Investigate March 12, 13 and 16, 2015 using independent price/action evidence.",
+    "Other ETFs have not been cross-checked against Stooq."
+  ],
+  "input_sha256": {
+    "SPY_original.csv": "f140c49b8e6e4972a5e609f20393f1723cf0a2c68c80ce7e38cc45ce75f873ef",
+    "spy_us_d.csv": "8d7748a3dc6c4fd510416f1c19119845ad071cc45158cfa5de0a649ef8f95ff5"
+  }
+}
