@@ -1,0 +1,31 @@
+SPY source-selection investigation
+
+Recommendation: retain the unchanged Yahoo snapshot as the primary candidate.
+Team approval is still required. Do not splice values from different providers.
+
+Evidence: the MIAX filing SR-MIAX-2015-46, Exhibit 3 Appendix A, printed page
+24 of 27, records unadjusted closes of 207.10 (2015-03-12), 205.83
+(2015-03-13) and 208.58 (2015-03-16). All three match the supplied Yahoo Close.
+Source: https://www.sec.gov/file/exhibit-3a-20
+These observations support Yahoo at the largest discrepancy dates; they do
+not establish a definitive error mechanism in Stooq or validate every date.
+
+Coverage: Stooq lacks 2011-02-17 relative to Yahoo. Preserve Yahoo's row in
+the primary candidate and the gap in the original Stooq snapshot. No fill,
+deletion or synthesized price has been applied to either input.
+
+Adjustment consistency: SPY has no split events in the Yahoo snapshot and
+64 reported cash-dividend events. The factor implied by Adj Close / Close
+is consistent with the provider's reported cash distributions within a
+relative tolerance of 0.000002. This is an internal consistency check using
+Yahoo's own inputs, not an independent verification of dividends or splits.
+
+Use outputs/SPY_primary_candidate.csv as the preserved Yahoo candidate.
+The adjusted-return first row is unavailable and must not be scored as zero.
+Provider-adjusted historical levels may incorporate adjustments known only
+later; do not feed them to an agent without the planned causal feature and
+leakage review. Rewards and execution conventions must be agreed with Env.
+
+The 10-basis-point screen only helps locate discrepancies. It is not a
+pre-agreed pass/fail standard. Original comparison outputs remain intact.
+Remaining source differences and the other four ETFs are not certified.

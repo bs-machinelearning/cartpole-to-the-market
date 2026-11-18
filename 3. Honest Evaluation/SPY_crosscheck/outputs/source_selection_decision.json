@@ -1,0 +1,42 @@
+{
+  "status": "INVESTIGATED_WITH_EXCEPTIONS; team approval pending",
+  "recommended_primary_source": "Unchanged Yahoo Finance snapshot",
+  "secondary_source": "Stooq cross-check only; not interchangeable with Yahoo",
+  "yahoo_rows_preserved": 4024,
+  "dates_only_in_yahoo": [
+    "2011-02-17"
+  ],
+  "missing_date_action": "Retain Yahoo observation; do not fabricate a Stooq row",
+  "independent_evidence": {
+    "source": "MIAX filing hosted by SEC",
+    "url": "https://www.sec.gov/file/exhibit-3a-20",
+    "dates_checked": [
+      "2015-03-12",
+      "2015-03-13",
+      "2015-03-16"
+    ],
+    "result": "All three Yahoo unadjusted closes match within $0.0001",
+    "scope_limit": "Does not validate adjusted levels or the full historical series"
+  },
+  "internal_adjustment_check": {
+    "cash_dividend_events": 64,
+    "split_events": 0,
+    "relative_factor_tolerance": 2e-06,
+    "max_absolute_relative_residual": 9.409930252779475e-07,
+    "flagged_observations": 0,
+    "independent_dividend_validation": false
+  },
+  "diagnostic_screen_bp": 10,
+  "diagnostic_flagged_dates": 9,
+  "unresolved": [
+    "Exact causes of Stooq discrepancies and missing date are unknown",
+    "Other Stooq/Yahoo differences remain documented, not repaired",
+    "No independent full-series corporate-action verification",
+    "Other four ETFs still require their own cross-checks",
+    "Source-selection recommendation requires team approval"
+  ],
+  "input_sha256": {
+    "SPY_original.csv": "f140c49b8e6e4972a5e609f20393f1723cf0a2c68c80ce7e38cc45ce75f873ef",
+    "spy_us_d.csv": "8d7748a3dc6c4fd510416f1c19119845ad071cc45158cfa5de0a649ef8f95ff5"
+  }
+}

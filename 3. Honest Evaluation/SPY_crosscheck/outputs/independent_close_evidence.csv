@@ -1,0 +1,4 @@
+Date,MIAX unadjusted close,Close,Adj Close,Dividends,Yahoo close matches MIAX within $0.0001,Source URL,Source location
+2015-03-12,207.1,207.10000610351562,170.6435546875,0.0,True,https://www.sec.gov/file/exhibit-3a-20,"SR-MIAX-2015-46, Exhibit 3 Appendix A, printed page 24/27"
+2015-03-13,205.83,205.8300018310547,169.59716796875,0.0,True,https://www.sec.gov/file/exhibit-3a-20,"SR-MIAX-2015-46, Exhibit 3 Appendix A, printed page 24/27"
+2015-03-16,208.58,208.5800018310547,171.86302185058594,0.0,True,https://www.sec.gov/file/exhibit-3a-20,"SR-MIAX-2015-46, Exhibit 3 Appendix A, printed page 24/27"
