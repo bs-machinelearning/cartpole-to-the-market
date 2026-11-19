@@ -1,0 +1,6 @@
+Scenario,Tickers,Sample start,Sample end,First test,Last test,Fold count,Christina estimate,Estimate matches,Missing panel values,Test sessions
+Original five from 2010,"SPY, QQQ, IWM, EFA, TLT",2010-01-04,2025-12-31,2013-07-01,2025-12-31,25,25,True,0,3146
+Original five from 2003,"SPY, QQQ, IWM, EFA, TLT",2003-01-02,2025-12-31,2006-07-03,2025-12-31,39,39,True,0,4906
+Original five plus GLD,"SPY, QQQ, IWM, EFA, TLT, GLD",2004-11-18,2025-12-31,2008-01-02,2025-12-31,36,36,True,0,4529
+Original five plus GLD and DBC,"SPY, QQQ, IWM, EFA, TLT, GLD, DBC",2006-02-06,2025-12-31,2009-07-01,2025-12-31,33,33,True,0,4152
+Recommended four asset exposures,"SPY, TLT, GLD, DBC",2006-02-06,2025-12-31,2009-07-01,2025-12-31,33,33,True,0,4152

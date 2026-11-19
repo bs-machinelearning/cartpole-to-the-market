@@ -1,0 +1,31 @@
+{
+  "status": "COMPARED_WITH_DIFFERENCES; Eval review pending",
+  "IRX_rows": 5802,
+  "FRED_rows": 6023,
+  "IRX_missing_values": 0,
+  "FRED_missing_values": 249,
+  "same_date_pairs": 5765,
+  "median_absolute_difference_bp": 1.0000001788139339,
+  "p95_absolute_difference_bp": 4.699999427795412,
+  "max_absolute_difference_bp": 51.000001192092896,
+  "max_difference_date": "2008-09-29",
+  "mean_signed_difference_bp": -1.5138248969871044,
+  "paired_quote_correlation": 0.9999301995992029,
+  "units": "Both source columns are quoted annual rates in percent; a 0.01 percentage-point quote gap equals 1 bp",
+  "method": "Same-date quote comparison with no filling or interpolation",
+  "interpretation": "Related 13-week / 3-month series; exact quote equality is not assumed. Differences are preserved, with no provider automatically declared incorrect.",
+  "pending": [
+    "Review instrument/quote conventions and largest differences with Eval",
+    "Approve conversion from annual quotes to interval risk-free returns",
+    "Approve conservative availability lag and missing-quote policy; never backfill from future observations",
+    "Approve final rate snapshot; revised historical data are not guaranteed point-in-time vintages"
+  ],
+  "sources": {
+    "IRX": "https://finance.yahoo.com/quote/%5EIRX/history/",
+    "FRED_DTB3": "https://fred.stlouisfed.org/series/DTB3"
+  },
+  "input_sha256": {
+    "risk_free_quotes.csv": "587535c83bf85d922089918d619a01e211e45e49b35cee066aba732a6a7519c8",
+    "DTB3.csv": "8e5b37da6f89728fb1426e129ef90228cd58aba1bef89c4f24ec965609d42a79"
+  }
+}
