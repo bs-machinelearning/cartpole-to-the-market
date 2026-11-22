@@ -1,0 +1,22 @@
+{
+  "seed": 0,
+  "eval_episodes": 100,
+  "owner": "Stefan",
+  "run_log": "results/run_log.csv",
+  "model_dir": "models",
+  "curve_dir": "curves",
+  "curve_eval_episodes": 10,
+  "environment": "Acrobot-v1",
+  "algorithm": "PPO",
+  "budget": 1000000,
+  "n_envs": 16,
+  "normalize": true,
+  "curve_interval": 50000,
+  "hyperparameters": {
+    "n_steps": 256,
+    "gae_lambda": 0.94,
+    "gamma": 0.99,
+    "n_epochs": 4,
+    "ent_coef": 0.0
+  }
+}
